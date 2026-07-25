@@ -49,9 +49,8 @@ export async function PATCH(request: NextRequest, { params }: Params) {
   }
 
   const supabase = createAdminClient();
-  const { data, error } = await supabase
-    .from('applicants')
-    .update({ status })
+  const { data, error } = await (supabase.from('applicants') as any)
+    .update({ status: status as string })
     .eq('id', id)
     .select('id, status')
     .single();
@@ -92,6 +91,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
 
   // Clean up storage files (non-critical)
   if (applicant) {
+    const app = applicant as any;
     const extractPath = (url: string) => {
       try {
         const u = new URL(url);
@@ -100,12 +100,12 @@ export async function DELETE(request: NextRequest, { params }: Params) {
       } catch { return null; }
     };
 
-    if (applicant.resume_url) {
-      const path = extractPath(applicant.resume_url);
+    if (app.resume_url) {
+      const path = extractPath(app.resume_url);
       if (path) await supabase.storage.from('resumes').remove([path]);
     }
-    if (applicant.profile_picture_url) {
-      const path = extractPath(applicant.profile_picture_url);
+    if (app.profile_picture_url) {
+      const path = extractPath(app.profile_picture_url);
       if (path) await supabase.storage.from('avatars').remove([path]);
     }
   }
