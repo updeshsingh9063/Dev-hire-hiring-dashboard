@@ -51,11 +51,8 @@ export default function ApplicationPage() {
 
       if (resumeUploadError) throw new Error(`Resume upload failed: ${resumeUploadError.message}`);
 
-      // Get a signed URL (valid for 10 years) since resumes bucket is private
-      const { data: resumeSigned } = await supabase.storage
-        .from('resumes')
-        .createSignedUrl(resumeFileName, 60 * 60 * 24 * 365 * 10);
-      const resumeUrl = resumeSigned?.signedUrl || '';
+      // Store the filename/key in the DB (resumes bucket is private; admin API will sign URLs on the fly)
+      const resumeUrl = resumeFileName;
 
       // 2. Upload avatar to Supabase Storage (public bucket)
       let profilePictureUrl: string | undefined;

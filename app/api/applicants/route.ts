@@ -43,9 +43,19 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
   }
 
+  const applicants = (data || []) as any[];
+  for (const app of applicants) {
+    if (app.resume_url) {
+      const { data: signed } = await supabase.storage
+        .from('resumes')
+        .createSignedUrl(app.resume_url, 60 * 15);
+      app.resume_url = signed?.signedUrl || '';
+    }
+  }
+
   return NextResponse.json({
     success: true,
-    data: data || [],
+    data: applicants,
     total: count || 0,
     page,
     perPage,

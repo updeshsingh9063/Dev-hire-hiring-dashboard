@@ -28,7 +28,15 @@ export async function GET(request: NextRequest, { params }: Params) {
     );
   }
 
-  return NextResponse.json({ success: true, data });
+  const applicant = { ...(data as any) };
+  if (applicant.resume_url) {
+    const { data: signed } = await supabase.storage
+      .from('resumes')
+      .createSignedUrl(applicant.resume_url, 60 * 15);
+    applicant.resume_url = signed?.signedUrl || '';
+  }
+
+  return NextResponse.json({ success: true, data: applicant });
 }
 
 // PATCH /api/applicants/[id] — update status
