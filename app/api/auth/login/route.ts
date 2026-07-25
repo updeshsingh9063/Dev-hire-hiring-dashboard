@@ -56,7 +56,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const isValid = await bcrypt.compare(password, admin.password_hash);
+    const adm = admin as any;
+    const isValid = await bcrypt.compare(password, adm.password_hash);
     if (!isValid) {
       return NextResponse.json(
         { success: false, message: 'Invalid email or password' },
@@ -64,7 +65,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const session = { id: admin.id, email: admin.email };
+    const session = { id: adm.id, email: adm.email };
     const encodedSession = encodeSession(session);
     const response = NextResponse.json({ success: true, message: 'Login successful', admin: session });
     response.cookies.set(SESSION_COOKIE_NAME, encodedSession, {

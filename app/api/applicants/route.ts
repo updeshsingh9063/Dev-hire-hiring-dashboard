@@ -72,8 +72,7 @@ export async function POST(request: NextRequest) {
 
     const supabase = createAdminClient();
 
-    const { data, error } = await supabase
-      .from('applicants')
+    const { data, error } = await (supabase.from('applicants') as any)
       .insert({
         full_name,
         email,
