@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
 
   const supabase = createAdminClient();
 
-  const { data: apps, error } = await supabase
+  const { data: appsRaw, error } = await supabase
     .from('applicants')
     .select('status, college, current_year, created_at')
     .order('created_at', { ascending: true });
@@ -19,7 +19,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ success: false, message: error.message }, { status: 500 });
   }
 
-  const allApps = apps || [];
+  // Cast to any[] — Supabase TS types can't infer partial column selects
+  const allApps = (appsRaw || []) as any[];
 
   // Status distribution
   const statusCounts = allApps.reduce<Record<string, number>>((acc, a) => {
