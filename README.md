@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DevHire — Full Stack Developer Hiring Platform
 
-## Getting Started
+A production-ready, beautiful hiring dashboard built with Next.js 15, TypeScript, Tailwind CSS, and Supabase.
 
-First, run the development server:
+## Features
+
+- 🎨 **Premium UI/UX:** Built with Tailwind CSS, shadcn/ui, and Framer Motion.
+- 📝 **No-Login Application Form:** Multi-step applicant flow with Zod validation.
+- 📄 **Resume Uploads:** Secure PDF storage via Supabase Storage.
+- 🔐 **Admin Dashboard:** Protected routes via Next.js Middleware and Supabase Auth.
+- 📊 **Analytics:** Beautiful Recharts visualizations for hiring trends.
+- 🗄️ **Database:** Supabase PostgreSQL with Row Level Security.
+
+## Setup Instructions
+
+### 1. Supabase Setup
+
+1. Create a new Supabase project.
+2. Run the SQL migrations found in `supabase/migrations/`:
+   - `001_create_admins.sql`
+   - `002_create_applicants.sql`
+   - `003_create_storage.sql`
+3. Generate a bcrypt hash for your desired admin password (e.g., `custom@1234`). You can use a tool like [bcrypt-generator.com](https://bcrypt-generator.com/) (rounds: 12).
+4. Edit `004_seed_admin.sql` to include your hash and run it to create the admin user.
+
+### 2. Environment Variables
+
+Copy the `.env.local.example` file to `.env.local` and fill in your Supabase credentials:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.local.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+You need:
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY` (Required for admin API routes to bypass RLS)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Install & Run
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev
+```
 
-## Learn More
+The application will be running at `http://localhost:3000`.
 
-To learn more about Next.js, take a look at the following resources:
+### 4. Admin Access
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Navigate to `http://localhost:3000/admin/login` and log in with the credentials you seeded.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Tech Stack
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Framework: Next.js 15 (App Router)
+- Language: TypeScript
+- Styling: Tailwind CSS v4 + class-variance-authority + clsx + tailwind-merge
+- Components: shadcn/ui, Radix UI
+- Animations: Framer Motion
+- Forms: React Hook Form + Zod
+- Database & Storage & Auth: Supabase
+- Icons: Lucide React
+- Charts: Recharts
+- Notifications: Sonner

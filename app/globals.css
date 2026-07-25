@@ -1,26 +1,241 @@
 @import "tailwindcss";
 
+/* =====================================================
+   DARK RED THEME — Square/Rectangular Design System
+   ===================================================== */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand Colors */
+  --sidebar-bg: #8B0000;          /* Dark Red */
+  --sidebar-hover: #A50000;
+  --sidebar-active: #6B0000;
+  --sidebar-text: #FFFFFF;
+  --sidebar-muted: rgba(255,255,255,0.6);
+
+  /* Accent */
+  --accent: #8B0000;
+  --accent-hover: #A50000;
+  --accent-light: #FFF0F0;
+  --accent-border: #FFB3B3;
+
+  /* Layout */
+  --background: #F4F4F5;
+  --foreground: #111111;
+  --card: #FFFFFF;
+  --border: #E4E4E7;
+  --muted: #71717A;
+  --muted-bg: #F4F4F5;
+
+  /* Shadows */
+  --shadow-btn: 4px 4px 0px 0px rgba(0,0,0,0.85);
+  --shadow-card: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+  --shadow-card-hover: 0 4px 12px 0 rgba(0,0,0,0.12);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+h1, h2, h3, .font-premium {
+  font-family: var(--font-playfair), Georgia, serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =====================================================
+   SCROLLBAR
+   ===================================================== */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: #8B0000; }
+
+/* =====================================================
+   THEME UTILITY CLASSES
+   ===================================================== */
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: #8B0000;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 2px solid #8B0000;
+  border-radius: 0;
+  box-shadow: var(--shadow-btn);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  background: #A50000;
+  border-color: #A50000;
+  box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.85);
+  transform: translate(2px, 2px);
+}
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--shadow-btn);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: #ffffff;
+  color: #111111;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 2px solid #111111;
+  border-radius: 0;
+  box-shadow: var(--shadow-btn);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+.btn-secondary:hover {
+  background: #F4F4F5;
+  box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.85);
+  transform: translate(2px, 2px);
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: #ffffff;
+  color: #8B0000;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 2px solid #8B0000;
+  border-radius: 0;
+  box-shadow: 4px 4px 0px 0px rgba(139,0,0,0.5);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-danger:hover {
+  background: #FFF0F0;
+  box-shadow: 2px 2px 0px 0px rgba(139,0,0,0.5);
+  transform: translate(2px, 2px);
+}
+
+/* Icon buttons */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: #ffffff;
+  color: #71717A;
+  border: 1.5px solid #E4E4E7;
+  border-radius: 0;
+  box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.6);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-icon:hover {
+  color: #111111;
+  border-color: #111111;
+  box-shadow: 1px 1px 0px 0px rgba(0,0,0,0.6);
+  transform: translate(1px, 1px);
+}
+.btn-icon-danger:hover {
+  color: #8B0000;
+  border-color: #8B0000;
+  box-shadow: 1px 1px 0px 0px rgba(139,0,0,0.6);
+  transform: translate(1px, 1px);
+}
+
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 0;
+  box-shadow: var(--shadow-card);
+}
+
+/* Form inputs */
+.input-field {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  background: #ffffff;
+  color: #111111;
+  font-size: 0.875rem;
+  border: 1.5px solid #D4D4D8;
+  border-radius: 0;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.input-field::placeholder {
+  color: #A1A1AA;
+}
+.input-field:focus {
+  border-color: #8B0000;
+  box-shadow: 0 0 0 3px rgba(139,0,0,0.1);
+}
+.input-field.error {
+  border-color: #EF4444;
+}
+
+.input-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #3F3F46;
+  margin-bottom: 0.375rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Status badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1.5px solid;
+}
+.badge-pending   { background: #FFF7ED; color: #C2410C; border-color: #FDBA74; }
+.badge-short     { background: #EFF6FF; color: #1D4ED8; border-color: #93C5FD; }
+.badge-interview { background: #F5F3FF; color: #6D28D9; border-color: #C4B5FD; }
+.badge-selected  { background: #F0FDF4; color: #15803D; border-color: #86EFAC; }
+.badge-rejected  { background: #FFF0F0; color: #8B0000; border-color: #FFB3B3; }
+
+/* Section divider */
+.section-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #71717A;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #E4E4E7;
+  margin-bottom: 1.25rem;
 }

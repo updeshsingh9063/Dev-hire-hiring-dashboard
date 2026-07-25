@@ -30,3 +30,32 @@ CREATE POLICY "Service role can delete resumes" ON storage.objects
   FOR DELETE
   TO service_role
   USING (bucket_id = 'resumes');
+
+-- =====================================================
+-- STORAGE BUCKET: avatars
+-- =====================================================
+
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'avatars',
+  'avatars',
+  true,
+  2097152,  -- 2MB in bytes
+  ARRAY['image/jpeg', 'image/png', 'image/webp']
+)
+ON CONFLICT (id) DO NOTHING;
+
+CREATE POLICY "Allow public uploads to avatars" ON storage.objects
+  FOR INSERT
+  TO anon
+  WITH CHECK (bucket_id = 'avatars');
+
+CREATE POLICY "Public can view avatars" ON storage.objects
+  FOR SELECT
+  TO public
+  USING (bucket_id = 'avatars');
+
+CREATE POLICY "Service role can delete avatars" ON storage.objects
+  FOR DELETE
+  TO service_role
+  USING (bucket_id = 'avatars');

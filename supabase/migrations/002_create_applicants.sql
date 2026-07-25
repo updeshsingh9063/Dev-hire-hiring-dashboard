@@ -1,71 +1,46 @@
 -- =====================================================
--- APPLICANTS TABLE
+-- APPLICANTS TABLE (UPDATED SCHEMA)
 -- =====================================================
 CREATE TABLE IF NOT EXISTS applicants (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
 
   -- Personal
-  first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
   full_name TEXT NOT NULL,
   email TEXT NOT NULL,
-  phone TEXT,
-  whatsapp TEXT,
+  phone TEXT NOT NULL,
+  whatsapp TEXT NOT NULL,
+  city TEXT NOT NULL,
 
   -- Education
-  college TEXT,
-  university TEXT,
-  degree TEXT,
-  branch TEXT,
-  current_year INTEGER,
-  graduation_year INTEGER,
-
-  -- Location
-  city TEXT,
-  country TEXT,
+  college TEXT NOT NULL,
+  university TEXT NOT NULL,
+  degree TEXT NOT NULL,
+  branch TEXT NOT NULL,
+  current_year INTEGER NOT NULL,
+  graduation_year INTEGER NOT NULL,
 
   -- Links
-  linkedin TEXT,
-  github TEXT,
-  portfolio TEXT,
+  github TEXT NOT NULL,
+  linkedin TEXT NOT NULL,
+  portfolio TEXT NOT NULL,
 
-  -- Resume
-  resume_url TEXT,
-  resume_file_name TEXT,
-
-  -- About
-  about TEXT,
+  -- Assets
+  profile_picture_url TEXT,
+  resume_url TEXT NOT NULL,
+  resume_file_name TEXT NOT NULL,
+  about TEXT NOT NULL,
 
   -- Project
-  project_name TEXT,
-  project_description TEXT,
-  problem_statement TEXT,
-  solution TEXT,
-  tech_stack TEXT[],
-  project_role TEXT,
-  github_repo TEXT,
-  live_demo TEXT,
-  project_images TEXT[],
+  project_name TEXT NOT NULL,
+  tech_stack TEXT NOT NULL,
+  project_description TEXT NOT NULL,
+  explain_contribution TEXT NOT NULL,
 
-  -- Experience
-  internships TEXT,
-  freelancing TEXT,
-  opensource TEXT,
-  hackathons TEXT,
-  achievements TEXT,
+  -- Resume
+  resume_url TEXT NOT NULL,
+  resume_file_name TEXT NOT NULL,
 
-  -- Skills (JSON object with categories)
-  skills JSONB DEFAULT '{}',
-
-  -- Availability
-  availability TEXT,
-  joining_date DATE,
-  employment_status TEXT,
-
-  -- Additional
-  notes TEXT,
-
-  -- Status
+  -- Admin Tracking
   status TEXT DEFAULT 'Pending' CHECK (
     status IN ('Pending', 'Shortlisted', 'Interview Scheduled', 'Selected', 'Rejected')
   ),
@@ -84,6 +59,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS update_applicants_updated_at ON applicants;
 CREATE TRIGGER update_applicants_updated_at
   BEFORE UPDATE ON applicants
   FOR EACH ROW
@@ -93,12 +69,14 @@ CREATE TRIGGER update_applicants_updated_at
 ALTER TABLE applicants ENABLE ROW LEVEL SECURITY;
 
 -- Anyone can INSERT (applicants submit without login)
+DROP POLICY IF EXISTS "Allow public insert" ON applicants;
 CREATE POLICY "Allow public insert" ON applicants
   FOR INSERT
   TO anon
   WITH CHECK (true);
 
 -- Only service_role can SELECT, UPDATE, DELETE
+DROP POLICY IF EXISTS "Service role full access" ON applicants;
 CREATE POLICY "Service role full access" ON applicants
   FOR ALL
   TO service_role
@@ -106,7 +84,7 @@ CREATE POLICY "Service role full access" ON applicants
   WITH CHECK (true);
 
 -- Indexes
-CREATE INDEX idx_applicants_email ON applicants(email);
-CREATE INDEX idx_applicants_status ON applicants(status);
-CREATE INDEX idx_applicants_college ON applicants(college);
-CREATE INDEX idx_applicants_created_at ON applicants(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_applicants_email ON applicants(email);
+CREATE INDEX IF NOT EXISTS idx_applicants_status ON applicants(status);
+CREATE INDEX IF NOT EXISTS idx_applicants_college ON applicants(college);
+CREATE INDEX IF NOT EXISTS idx_applicants_created_at ON applicants(created_at DESC);
