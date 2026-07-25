@@ -38,7 +38,7 @@ export default function SettingsPage() {
           <h2 className="font-black text-[#111111] uppercase tracking-wider text-xs">Profile Settings</h2>
         </div>
 
-        <form onSubmit={handleSave} className="p-8 space-y-5">
+        <form onSubmit={handleSave} className="p-6 sm:p-8 space-y-5">
           <div>
             <label className="input-label">Email Address</label>
             <input

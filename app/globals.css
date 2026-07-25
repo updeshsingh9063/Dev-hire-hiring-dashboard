@@ -239,3 +239,33 @@ body {
   border-bottom: 2px solid #E4E4E7;
   margin-bottom: 1.25rem;
 }
+
+/* =====================================================
+   RESPONSIVE ADMIN LAYOUT UTILITIES
+   ===================================================== */
+.admin-main {
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px; /* offset for fixed mobile header */
+  margin-left: 0;
+  transition: margin-left 0.2s ease, margin-top 0.2s ease;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  .admin-main {
+    margin-left: 256px; /* w-64 */
+    margin-top: 0;
+  }
+  .admin-content {
+    padding: 40px 48px;
+  }
+}

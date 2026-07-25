@@ -124,10 +124,10 @@ export default function ApplicantsMasterDetailPage() {
   });
 
   return (
-    <div className="flex gap-6" style={{ height: 'calc(100vh - 80px)' }}>
+    <div className="flex flex-col lg:flex-row gap-6 h-[calc(100vh-140px)] lg:h-[calc(100vh-80px)]">
       
       {/* ── LEFT PANE: LIST ── */}
-      <div className="w-80 lg:w-96 flex flex-col shrink-0 bg-white border-2 border-[#111111]" style={{ boxShadow: '4px 4px 0 0 rgba(0,0,0,0.75)' }}>
+      <div className={`w-full lg:w-80 xl:w-96 flex-col shrink-0 bg-white border-2 border-[#111111] ${selectedId ? 'hidden lg:flex' : 'flex'}`} style={{ boxShadow: '4px 4px 0 0 rgba(0,0,0,0.75)', height: '100%' }}>
         <div style={{ padding: '16px', borderBottom: '4px solid #8B0000', backgroundColor: '#FFF8F8', display: 'flex', flexDirection: 'column', gap: '10px', flexShrink: 0 }}>
           <h2 className="font-black text-[#111111] uppercase tracking-tight text-xl">Applicants</h2>
           {/* Search Input */}
@@ -208,7 +208,7 @@ export default function ApplicantsMasterDetailPage() {
       </div>
 
       {/* ── RIGHT PANE: DETAIL ── */}
-      <div className="flex-1 bg-[#F4F4F5] border-2 border-[#E4E4E7] overflow-y-auto">
+      <div className={`flex-1 bg-[#F4F4F5] border-2 border-[#E4E4E7] overflow-y-auto ${selectedId ? 'flex' : 'hidden lg:flex'} flex-col`}>
         {!selectedId ? (
           <div className="h-full flex flex-col items-center justify-center text-[#71717A]">
             <User className="w-12 h-12 mb-4 opacity-20" />
@@ -223,6 +223,13 @@ export default function ApplicantsMasterDetailPage() {
           <div className="p-8 text-center text-[#71717A] font-bold">Applicant not found</div>
         ) : (
           <div className="p-6 md:p-8 space-y-8">
+            {/* Back Button (Mobile only) */}
+            <button 
+              onClick={() => setSelectedId(null)}
+              className="lg:hidden mb-4 btn-secondary text-xs px-3 py-2 self-start flex items-center gap-1.5"
+            >
+              ← Back to List
+            </button>
             
             {/* Profile Hero Card */}
             <div className="bg-white border-2 border-[#111111] overflow-hidden" style={{ boxShadow: '6px 6px 0 0 rgba(0,0,0,0.85)' }}>

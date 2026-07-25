@@ -80,18 +80,18 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Page Header */}
-      <div className="flex items-end justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-[#8B0000] mb-1">Overview</p>
           <h1 className="text-3xl font-black text-[#111111] uppercase tracking-tight">Dashboard</h1>
         </div>
-        <Link href="/admin/applicants" className="btn-secondary flex items-center gap-2 text-xs px-4 py-2">
+        <Link href="/admin/applicants" className="btn-secondary flex items-center gap-2 text-xs px-4 py-2 self-start sm:self-auto">
           <ListFilter className="w-3.5 h-3.5" /> All Applicants
         </Link>
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
         {loading
           ? Array.from({ length: 5 }).map((_, i) => (
               <Skeleton key={i} className="h-28 bg-[#E4E4E7]" />
@@ -142,7 +142,7 @@ export default function DashboardPage() {
         ) : (
           <div className="divide-y-2 divide-[#F4F4F5]">
             {recent.map((app) => (
-              <div key={app.id} className="flex items-center justify-between px-6 py-4 hover:bg-[#F9F9F9] transition-colors">
+              <div key={app.id} className="flex flex-col sm:flex-row sm:items-center justify-between px-6 py-4 hover:bg-[#F9F9F9] transition-colors gap-4">
                 <div className="flex items-center gap-4">
                   {/* Avatar square */}
                   <div
@@ -164,7 +164,7 @@ export default function DashboardPage() {
                     <p className="text-xs text-[#71717A] font-medium">{app.email}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 sm:gap-5">
+                <div className="flex items-center gap-3 sm:gap-5 justify-between sm:justify-end w-full sm:w-auto">
                   <select
                     value={app.status}
                     onChange={(e) => handleStatusChange(app.id, e.target.value)}
