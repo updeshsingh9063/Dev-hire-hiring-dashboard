@@ -22,7 +22,7 @@ export default function ApplicationPage() {
   const supabase = createClient();
 
   const { register, handleSubmit, formState: { errors } } = useForm<ApplicationFormData>({
-    resolver: zodResolver(applicationSchema),
+    resolver: zodResolver(applicationSchema) as any,
   });
 
   const fileToBase64 = (file: File): Promise<string> => {
